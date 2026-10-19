@@ -52,6 +52,10 @@ reasoning effort medium, Bonsai's recommended sampling defaults, and the
 built-in web UI at <http://127.0.0.1:8080>. Options: `--ctx`, `--kv`, `--port`,
 `--reasoning`, `--no-open`. Ctrl+C stops it. Do not use LM Studio for Bonsai.
 
+OpenCode exposes the running server as `bonsai/bonsai` (provider config in
+`~/.config/opencode/opencode.json`, `baseURL` `http://127.0.0.1:8080/v1`).
+Use `/models` or `opencode run --model bonsai/bonsai "..."` to test it.
+
 ## Fairness rules
 
 - Keep `-ngl 99 -fa on -b 2048 -ub 512 --parallel 1` identical across models.

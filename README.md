@@ -38,6 +38,35 @@ port, applies Bonsai's recommended sampling defaults, and serves the built-in
 web UI at `http://127.0.0.1:8080`. Ctrl+C stops it. Override paths with
 `BONSAI_PRISM_DIR` / `BONSAI_MODEL` if the install or SSD mount moves.
 
+## Use from OpenCode
+
+With `bonsai` running, OpenCode can use it as an OpenAI-compatible provider:
+
+```jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  "providers": {
+    "bonsai": {
+      "name": "Bonsai (local)",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": { "baseURL": "http://127.0.0.1:8080/v1" },
+      "models": {
+        "bonsai": {
+          "name": "Ternary Bonsai 2 27B (PQ2_0)",
+          "capabilities": { "tools": true, "input": ["text"], "output": ["text"] },
+          "limit": { "context": 65536, "output": 8192 },
+          "compatibility": { "reasoningField": "reasoning_content" }
+        }
+      }
+    }
+  }
+}
+```
+
+Then select **Bonsai (local)** in `/models`, or run
+`opencode run --model bonsai/bonsai "..."`. Tool calling and streamed
+reasoning are verified.
+
 ## Install
 
 ```bash
