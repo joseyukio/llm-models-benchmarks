@@ -1,0 +1,86 @@
+# llmbench configuration
+# Paths support ~ and $VARS. Relative paths resolve from this repo.
+
+[general]
+model_roots = [
+  "/run/media/yukio/SSD-1_Tera/common-home/yukio/llm-models",
+]
+results_dir = "results"
+notes_dir = "notes"
+default_backend = "lmstudio"
+load_timeout_s = 240
+cooldown_s = 1.5
+# Extra headroom added to the weight file when estimating whether a model fits.
+fit_overhead_mib = 900
+
+[speed]
+ctx = 8192
+kv = "f16"
+reps = 3
+gen_tokens = 128
+
+[context]
+# Ladder tried by `llmbench context`. Rungs above a model's native context are
+# skipped automatically.
+
+[[context.ladder]]
+ctx = 32768
+k = "f16"
+v = "f16"
+
+[[context.ladder]]
+ctx = 65536
+k = "f16"
+v = "f16"
+
+[[context.ladder]]
+ctx = 65536
+k = "q8_0"
+v = "q8_0"
+
+[[context.ladder]]
+ctx = 65536
+k = "q4_0"
+v = "q4_0"
+
+[[context.ladder]]
+ctx = 131072
+k = "q8_0"
+v = "q8_0"
+
+[[context.ladder]]
+ctx = 131072
+k = "q4_0"
+v = "q4_0"
+
+# ---------------------------------------------------------------------------
+# Backends
+# ---------------------------------------------------------------------------
+# `flags` are shared by speed and context runs. Keep them identical across
+# backends so numbers stay comparable.
+
+[backends.lmstudio]
+binary_glob = "~/.lmstudio/extensions/backends/llama.cpp-*-nvidia-cuda12-avx2-*/llama-server"
+ld_library_path = "~/.lmstudio/extensions/backends/vendor/linux-llama-cuda12-vendor-v1"
+flags = [
+  "-ngl", "99",
+  "-fa", "on",
+  "-b", "2048",
+  "-ub", "512",
+  "--parallel", "1",
+  "--no-webui",
+]
+
+[backends.prism]
+# Prism ML's llama.cpp fork is required for Ternary-Bonsai (PQ2_0 / PTQ1_0).
+binary = "~/.local/share/prism-llama/llama-prism-b10777-e3de715/llama-server"
+ld_library_path = "~/.lmstudio/extensions/backends/vendor/linux-llama-cuda12-vendor-v1"
+match = ["*Bonsai*", "*PQ2_0*", "*PTQ1_0*"]
+flags = [
+  "-ngl", "99",
+  "-fa", "on",
+  "-b", "2048",
+  "-ub", "512",
+  "--parallel", "1",
+  "--no-webui",
+]

@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "tool_version": "0.1.0",
+  "run_at": "2026-10-19T17:14:23Z",
+  "model": {
+    "slug": "ornith-1.5-9b-q6_k",
+    "name": "Ornith-1.5-9B-Q6_K",
+    "path": "/run/media/yukio/SSD-1_Tera/common-home/yukio/llm-models/ornith-ai/Ornith-1.5-9B-GGUF/Ornith-1.5-9B-Q6_K.gguf",
+    "size_bytes": 7558901696,
+    "size_gib": 7.04,
+    "quant": "Q6_K",
+    "arch": "qwen35",
+    "native_ctx": 262144,
+    "block_count": 33
+  },
+  "backend": {
+    "name": "lmstudio",
+    "binary": "/home/yukio/.lmstudio/extensions/backends/llama.cpp-linux-x86_64-nvidia-cuda12-avx2-2.60.0/llama-server",
+    "version": "version: 0.7.0-dev (build 1, commit 2a66703)"
+  },
+  "env": {
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 5070",
+      "driver": "615.78.08",
+      "memory_total_mib": 12227,
+      "memory_used_mib": 1005
+    },
+    "system": {
+      "host": "omarchy",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+      "ram_gib": 31.2,
+      "os": "Omarchy",
+      "kernel": "7.2.8-9-omarchy"
+    }
+  },
+  "baseline_mib": 1005,
+  "native_ctx": 262144,
+  "results": [
+    {
+      "ctx": 32768,
+      "k": "f16",
+      "v": "f16",
+      "label": "32k f16",
+      "ok": true,
+      "ready_s": 1.97,
+      "total_mib": 8626,
+      "delta_mib": 7621,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141354-ornith-1.5-9b-q6_k-c32768-f16-56907.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "f16",
+      "v": "f16",
+      "label": "64k f16",
+      "ok": true,
+      "ready_s": 2.36,
+      "total_mib": 9682,
+      "delta_mib": 8677,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141358-ornith-1.5-9b-q6_k-c65536-f16-55573.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "q8_0",
+      "v": "q8_0",
+      "label": "64k q8_0",
+      "ok": true,
+      "ready_s": 2.37,
+      "total_mib": 8938,
+      "delta_mib": 7933,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141403-ornith-1.5-9b-q6_k-c65536-q8_0-35283.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "q4_0",
+      "v": "q4_0",
+      "label": "64k q4_0",
+      "ok": true,
+      "ready_s": 2.39,
+      "total_mib": 8426,
+      "delta_mib": 7421,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141408-ornith-1.5-9b-q6_k-c65536-q4_0-47705.log"
+    },
+    {
+      "ctx": 131072,
+      "k": "q8_0",
+      "v": "q8_0",
+      "label": "128k q8_0",
+      "ok": true,
+      "ready_s": 2.37,
+      "total_mib": 10346,
+      "delta_mib": 9341,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141413-ornith-1.5-9b-q6_k-c131072-q8_0-42115.log"
+    },
+    {
+      "ctx": 131072,
+      "k": "q4_0",
+      "v": "q4_0",
+      "label": "128k q4_0",
+      "ok": true,
+      "ready_s": 2.37,
+      "total_mib": 9322,
+      "delta_mib": 8317,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 33,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141418-ornith-1.5-9b-q6_k-c131072-q4_0-34299.log"
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "tool_version": "0.1.0",
+  "run_at": "2026-10-19T17:14:50Z",
+  "model": {
+    "slug": "ternary-bonsai-2-27b-pq2_0",
+    "name": "Ternary-Bonsai-2-27B-PQ2_0",
+    "path": "/run/media/yukio/SSD-1_Tera/common-home/yukio/llm-models/prism-ml/Ternary-Bonsai-2-27B-gguf/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+    "size_bytes": 7206168928,
+    "size_gib": 6.71,
+    "quant": "PQ2_0",
+    "arch": "qwen35",
+    "native_ctx": 262144,
+    "block_count": 64
+  },
+  "backend": {
+    "name": "prism",
+    "binary": "/home/yukio/.local/share/prism-llama/llama-prism-b10777-e3de715/llama-server",
+    "version": "version: 0.2.0-dev (build 10777, commit e3de71522)"
+  },
+  "env": {
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 5070",
+      "driver": "615.78.08",
+      "memory_total_mib": 12227,
+      "memory_used_mib": 1005
+    },
+    "system": {
+      "host": "omarchy",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+      "ram_gib": 31.2,
+      "os": "Omarchy",
+      "kernel": "7.2.8-9-omarchy"
+    }
+  },
+  "baseline_mib": 1005,
+  "native_ctx": 262144,
+  "results": [
+    {
+      "ctx": 32768,
+      "k": "f16",
+      "v": "f16",
+      "label": "32k f16",
+      "ok": true,
+      "ready_s": 2.36,
+      "total_mib": 10112,
+      "delta_mib": 9107,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 64,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141423-ternary-bonsai-2-27b-pq2_0-c32768-f16-33165.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "f16",
+      "v": "f16",
+      "label": "64k f16",
+      "ok": false,
+      "error": "OOM",
+      "detail": "0.01.853.861 E srv  llama_server: exiting due to model loading error",
+      "log": "results/logs/20261019-141428-ternary-bonsai-2-27b-pq2_0-c65536-f16-52943.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "q8_0",
+      "v": "q8_0",
+      "label": "64k q8_0",
+      "ok": true,
+      "ready_s": 2.36,
+      "total_mib": 10272,
+      "delta_mib": 9267,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 64,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141432-ternary-bonsai-2-27b-pq2_0-c65536-q8_0-50929.log"
+    },
+    {
+      "ctx": 65536,
+      "k": "q4_0",
+      "v": "q4_0",
+      "label": "64k q4_0",
+      "ok": true,
+      "ready_s": 2.34,
+      "total_mib": 9248,
+      "delta_mib": 8243,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 64,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141437-ternary-bonsai-2-27b-pq2_0-c65536-q4_0-52005.log"
+    },
+    {
+      "ctx": 131072,
+      "k": "q8_0",
+      "v": "q8_0",
+      "label": "128k q8_0",
+      "ok": false,
+      "error": "OOM",
+      "detail": "0.01.830.028 E srv  llama_server: exiting due to model loading error",
+      "log": "results/logs/20261019-141442-ternary-bonsai-2-27b-pq2_0-c131072-q8_0-60979.log"
+    },
+    {
+      "ctx": 131072,
+      "k": "q4_0",
+      "v": "q4_0",
+      "label": "128k q4_0",
+      "ok": true,
+      "ready_s": 2.34,
+      "total_mib": 10464,
+      "delta_mib": 9459,
+      "layers": {
+        "offloaded": null,
+        "total": null,
+        "block_count": 64,
+        "ngl": 99,
+        "full_gpu": true
+      },
+      "buffers_mib": {},
+      "log": "results/logs/20261019-141446-ternary-bonsai-2-27b-pq2_0-c131072-q4_0-41777.log"
+    }
+  ]
+}

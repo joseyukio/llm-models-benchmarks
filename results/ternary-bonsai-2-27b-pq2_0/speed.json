@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "tool_version": "0.1.0",
+  "run_at": "2026-10-19T17:13:48Z",
+  "model": {
+    "slug": "ternary-bonsai-2-27b-pq2_0",
+    "name": "Ternary-Bonsai-2-27B-PQ2_0",
+    "path": "/run/media/yukio/SSD-1_Tera/common-home/yukio/llm-models/prism-ml/Ternary-Bonsai-2-27B-gguf/Ternary-Bonsai-2-27B-PQ2_0.gguf",
+    "size_bytes": 7206168928,
+    "size_gib": 6.71,
+    "quant": "PQ2_0",
+    "arch": "qwen35",
+    "native_ctx": 262144,
+    "block_count": 64
+  },
+  "backend": {
+    "name": "prism",
+    "binary": "/home/yukio/.local/share/prism-llama/llama-prism-b10777-e3de715/llama-server",
+    "version": "version: 0.2.0-dev (build 10777, commit e3de71522)"
+  },
+  "env": {
+    "gpu": {
+      "name": "NVIDIA GeForce RTX 5070",
+      "driver": "615.78.08",
+      "memory_total_mib": 12227,
+      "memory_used_mib": 1005
+    },
+    "system": {
+      "host": "omarchy",
+      "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+      "ram_gib": 31.2,
+      "os": "Omarchy",
+      "kernel": "7.2.8-9-omarchy"
+    }
+  },
+  "config": {
+    "ctx": 8192,
+    "k": "f16",
+    "v": "f16",
+    "reps": 3,
+    "gen_tokens": 128,
+    "ignore_eos": true,
+    "prompt_tokens": 1201
+  },
+  "vram": {
+    "baseline_mib": 1005,
+    "loaded_mib": 8604,
+    "delta_mib": 7599
+  },
+  "layers": {
+    "offloaded": null,
+    "total": null,
+    "block_count": 64,
+    "ngl": 99,
+    "full_gpu": true
+  },
+  "buffers_mib": {},
+  "server": {
+    "ready_s": 2.35,
+    "log": "results/logs/20261019-141334-ternary-bonsai-2-27b-pq2_0-c8192-f16-36339.log"
+  },
+  "warmup": {
+    "short": {
+      "prompt_n": 7,
+      "prompt_ms": 66.239,
+      "prompt_per_second": 105.6779238817011,
+      "predicted_n": 16,
+      "predicted_ms": 232.708,
+      "predicted_per_second": 64.45846296646441,
+      "stop_type": "limit"
+    },
+    "prefill": {
+      "prompt_n": 1201,
+      "prompt_ms": 962.261,
+      "prompt_per_second": 1248.1021261383346,
+      "predicted_n": 1,
+      "predicted_ms": 0.001,
+      "predicted_per_second": 0.0,
+      "stop_type": "limit"
+    }
+  },
+  "runs": [
+    {
+      "prompt_n": 1201,
+      "prompt_ms": 882.709,
+      "prompt_per_second": 1360.5842922186137,
+      "predicted_n": 128,
+      "predicted_ms": 1907.578,
+      "predicted_per_second": 66.57656987027529,
+      "stop_type": "limit"
+    },
+    {
+      "prompt_n": 1201,
+      "prompt_ms": 870.748,
+      "prompt_per_second": 1379.273911625407,
+      "predicted_n": 128,
+      "predicted_ms": 1907.067,
+      "predicted_per_second": 66.59440911095415,
+      "stop_type": "limit"
+    },
+    {
+      "prompt_n": 1201,
+      "prompt_ms": 874.586,
+      "prompt_per_second": 1373.221158353781,
+      "predicted_n": 128,
+      "predicted_ms": 1907.91,
+      "predicted_per_second": 66.56498472150155,
+      "stop_type": "limit"
+    }
+  ],
+  "summary": {
+    "prefill": {
+      "median": 1373.221158353781,
+      "min": 1360.5842922186137,
+      "max": 1379.273911625407,
+      "stdev": 7.78622773774384,
+      "n": 3
+    },
+    "generation": {
+      "median": 66.57656987027529,
+      "min": 66.56498472150155,
+      "max": 66.59440911095415,
+      "stdev": 0.012102565727821785,
+      "n": 3
+    }
+  },
+  "warnings": []
+}
