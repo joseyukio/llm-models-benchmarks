@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+# Launch Ternary-Bonsai-2-27B (PQ2_0) on the Prism fork llama-server.
+#
+#   bonsai                         # 64k q8_0, reasoning medium, opens web UI
+#   bonsai --ctx 32768 --kv f16    # quality-first daily config
+#   bonsai --ctx 131072 --kv q4_0  # long-document config
+#   bonsai --port 8081 --no-open
+#
+# Everything can also be overridden with BONSAI_* environment variables.
+set -euo pipefail
+
+PRISM_DIR="${BONSAI_PRISM_DIR:-$HOME/.local/share/prism-llama/llama-prism-b10777-e3de715}"
+MODEL="${BONSAI_MODEL:-/run/media/yukio/SSD-1_Tera/common-home/yukio/llm-models/prism-ml/Ternary-Bonsai-2-27B-gguf/Ternary-Bonsai-2-27B-PQ2_0.gguf}"
+CUDA_LIBS="${BONSAI_CUDA_LIBS:-$HOME/.lmstudio/extensions/backends/vendor/linux-llama-cuda12-vendor-v1}"
+
+HOST="${BONSAI_HOST:-127.0.0.1}"
+PORT="${BONSAI_PORT:-8080}"
+CTX="${BONSAI_CTX:-65536}"
+KV="${BONSAI_KV:-q8_0}"
+REASONING="${BONSAI_REASONING:-medium}"
+OPEN="${BONSAI_OPEN:-1}"
+EXTRA=()
+
+usage() {
+  cat <<'EOF'
+Usage: bonsai [options] [extra llama-server args]
+
+  --ctx N          context size (default: 65536)
+  --kv TYPE        KV cache type: f16, q8_0, q4_0 (default: q8_0)
+  --port N         port (default: 8080)
+  --host ADDR      bind address (default: 127.0.0.1)
+  --reasoning LVL  reasoning effort: minimal|low|medium|high|xhigh|max
+                   (default: medium; use "default" for the template default)
+  --no-open        do not open the web UI in a browser
+  -h, --help       show this help
+
+Notes:
+  12 GB fits: 32k f16, 64k q8_0, 128k q4_0.
+  64k f16 and 128k q8_0 do not fit.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --ctx) CTX="$2"; shift 2 ;;
+    --kv) KV="$2"; shift 2 ;;
+    --port) PORT="$2"; shift 2 ;;
+    --host) HOST="$2"; shift 2 ;;
+    --reasoning) REASONING="$2"; shift 2 ;;
+    --no-open) OPEN=0; shift ;;
+    -h|--help) usage; exit 0 ;;
+    --) shift; EXTRA+=("$@"); break ;;
+    *) EXTRA+=("$1"); shift ;;
+  esac
+done
+
+[[ -x "$PRISM_DIR/llama-server" ]] || {
+  echo "error: llama-server not found at $PRISM_DIR/llama-server" >&2
+  echo "       set BONSAI_PRISM_DIR to the extracted Prism fork directory" >&2
+  exit 1
+}
+[[ -f "$MODEL" ]] || {
+  echo "error: model not found: $MODEL" >&2
+  echo "       is the SSD mounted? set BONSAI_MODEL to override" >&2
+  exit 1
+}
+[[ -d "$CUDA_LIBS" ]] || {
+  echo "error: CUDA runtime not found at $CUDA_LIBS" >&2
+  exit 1
+}
+
+if ss -ltn 2>/dev/null | awk '{print $4}' | grep -qE "[:.]$PORT$"; then
+  echo "error: port $PORT is already in use (try --port 8081)" >&2
+  exit 1
+fi
+
+if [[ "$KV" == "f16" && "$CTX" -gt 32768 ]]; then
+  echo "warning: f16 KV at ${CTX} does not fit in 12 GB; use 32k f16 or 64k q8_0" >&2
+fi
+if [[ "$KV" == "q8_0" && "$CTX" -gt 65536 ]]; then
+  echo "warning: q8_0 KV at ${CTX} does not fit; 128k needs q4_0" >&2
+fi
+
+export LD_LIBRARY_PATH="$CUDA_LIBS${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+ARGS=(
+  -m "$MODEL"
+  --host "$HOST" --port "$PORT"
+  -ngl 99 -fa on
+  -c "$CTX" -ctk "$KV" -ctv "$KV"
+  --jinja
+  --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0.05
+)
+if [[ -n "$REASONING" ]]; then
+  ARGS+=(--reasoning-effort "$REASONING")
+fi
+
+echo "Ternary-Bonsai-2-27B-PQ2_0"
+echo "  http://$HOST:$PORT"
+echo "  ctx $CTX, KV $KV, reasoning $REASONING"
+echo "  Ctrl+C to stop"
+echo
+
+if [[ "$OPEN" == "1" && "$HOST" == "127.0.0.1" ]]; then
+  (
+    for _ in $(seq 1 180); do
+      kill -0 $$ 2>/dev/null || exit 0
+      if curl -fsS "http://$HOST:$PORT/health" >/dev/null 2>&1; then
+        xdg-open "http://$HOST:$PORT" >/dev/null 2>&1 || true
+        break
+      fi
+      sleep 1
+    done
+  ) &
+fi
+
+exec "$PRISM_DIR/llama-server" "${ARGS[@]}" "${EXTRA[@]}"

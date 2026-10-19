@@ -22,6 +22,22 @@ llmbench report                        # results/report.md
 `llmbench` is a symlink to `llmbench.py` in this repo. Python 3.11+ and
 `nvidia-smi` are required; no third-party packages.
 
+## Serving Bonsai (daily use)
+
+`scripts/bonsai` is symlinked to `~/.local/bin/bonsai`:
+
+```bash
+bonsai                         # 64k q8_0, reasoning medium, opens web UI
+bonsai --ctx 32768 --kv f16    # quality-first daily config
+bonsai --ctx 131072 --kv q4_0  # long-document config
+bonsai --port 8081 --no-open   # second instance / no browser
+```
+
+It resolves the Prism binary and LM Studio's CUDA runtime, checks the model and
+port, applies Bonsai's recommended sampling defaults, and serves the built-in
+web UI at `http://127.0.0.1:8080`. Ctrl+C stops it. Override paths with
+`BONSAI_PRISM_DIR` / `BONSAI_MODEL` if the install or SSD mount moves.
+
 ## Install
 
 ```bash

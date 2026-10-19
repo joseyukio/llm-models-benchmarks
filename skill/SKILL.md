@@ -45,6 +45,13 @@ new quantization needs another fork, add a `[backends.<name>]` profile with
 `binary`/`binary_glob`, `ld_library_path`, `flags`, and `match`, rather than
 bypassing the tool.
 
+## Serving Bonsai
+
+`bonsai` (repo `scripts/bonsai`) starts the Prism fork server with 64k q8_0 KV,
+reasoning effort medium, Bonsai's recommended sampling defaults, and the
+built-in web UI at <http://127.0.0.1:8080>. Options: `--ctx`, `--kv`, `--port`,
+`--reasoning`, `--no-open`. Ctrl+C stops it. Do not use LM Studio for Bonsai.
+
 ## Fairness rules
 
 - Keep `-ngl 99 -fa on -b 2048 -ub 512 --parallel 1` identical across models.
